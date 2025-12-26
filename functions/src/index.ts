@@ -1,6 +1,6 @@
-import { onDocumentCreated } from "firebase-functions/v2/firestore";
+import {onDocumentCreated} from "firebase-functions/v2/firestore";
 import * as admin from "firebase-admin";
-import { FieldValue } from "firebase-admin/firestore";
+import {FieldValue} from "firebase-admin/firestore";
 
 // ตรวจสอบว่า Init App ไปหรือยัง เพื่อป้องกัน Error init ซ้ำ
 if (!admin.apps.length) {
@@ -10,6 +10,7 @@ if (!admin.apps.length) {
 export const processHeavyTask = onDocumentCreated(
   {
     document: "orders/{orderId}",
+    database: "dlt-db",
     region: "asia-southeast1", // ใช้ Region ให้ตรงกับที่คุณเลือก
     timeoutSeconds: 300,
     memory: "512MiB",
@@ -58,7 +59,8 @@ export const processHeavyTask = onDocumentCreated(
       const result = {
         success: true,
         message: "Task processed successfully!",
-        processedData: orderData.payload || "No payload", // ตัวอย่างการใช้ data เดิม
+        // ตัวอย่างการใช้ data เดิม
+        processedData: orderData.payload || "No payload",
       };
       // ----------------------------------------------------
 
@@ -85,16 +87,16 @@ export const processHeavyTask = onDocumentCreated(
 
 const listCouponOnMarketplace = async (body: any) => {
   try {
-    const response = await fetch(
-      `https://dlp-backofficebe-testnet.adldigitalservice.com/coupon/seller/list-on-marketplace`,
-      {
-        method: "POST",
-        body: JSON.stringify(body),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    );
+    const apiUrl =
+      "https://dlp-backofficebe-testnet.adldigitalservice.com" +
+      "/coupon/seller/list-on-marketplace";
+    const response = await fetch(apiUrl, {
+      method: "POST",
+      body: JSON.stringify(body),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
     const data = await response.json();
     console.log(data);
     if (response.status !== 200) {

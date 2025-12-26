@@ -86,7 +86,7 @@ export const processHeavyTask = onDocumentCreated(
 const listCouponOnMarketplace = async (body: any) => {
   try {
     const response = await fetch(
-      `http://127.0.0.1:4004/coupon/seller/list-on-marketplace`,
+      `https://dlp-backofficebe-testnet.adldigitalservice.com/coupon/seller/list-on-marketplace`,
       {
         method: "POST",
         body: JSON.stringify(body),

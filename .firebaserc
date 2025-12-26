@@ -1,0 +1,5 @@
+{
+  "projects": {
+    "default": "dlt-serverless-background-jobs"
+  }
+}
